@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!-- 引入外部css文件 -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <form method="POST" action="/logined">
+        <h1>Login</h1>
+        <p>
+            Email:
+            <input id="email" type="email" name="email" placeholder="Enter your email"
+                value="<%= formData ? formData.email : '' %>"
+                class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" />
+
+        </p>
+
+        <p>
+            Password:
+            <input id="password" type="password" name="password" placeholder="Enter your password"
+                value="<%= formData ? formData.password : '' %>"
+                class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" />
+
+        </p>
+
+        <input type="submit" value="Login" />
+
+
+    </form>
+    <!-- 引入外部的 JavaScript 文件 -->
+    <script src="/js/validation.js"></script>
+</body>
+
+</html>

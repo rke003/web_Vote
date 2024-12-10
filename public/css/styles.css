@@ -1,0 +1,4 @@
+/* 处理错误的样式 */
+.error {
+    border: 2px solid red;
+}

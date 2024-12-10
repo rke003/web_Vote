@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="about">About</a></li>
+                <li><a href="register">Register</a></li>
+                <li><a href="login">Login</a></li>
+                <li><a href="search">Search</a></li>
+                <li><a href="upload">Upload</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div><!-- 显示用户剩余票数 -->
+        <% if (user) { %>
+            <p>Your Remaining Votes: <%= user.votes_remaining %>
+            </p>
+            <% } %>
+    </div>
+
+    <div>
+        <!-- 用户的登录状态 -->
+        <h1> Photography Competition to Promote Fairness and Inclusiveness in Chemical Science Community</h1>
+        <% if (user) { %>
+            <p>Hello, <%= user.username %>! You are logged in.</p>
+            <% } else { %>
+                <p>Please <a href="/login">log in</a> to access more features.</p>
+                <% } %>
+    </div>
+
+    <div class="gallery">
+        <% if (works.length> 0) { %>
+            <% works.forEach(function(work) { %>
+                <div class="image-card">
+                    <img src="<%= work.image_url %>" alt="Uploaded Photo">
+                    <p>Title: <%= work.title %>
+                    </p>
+                    <p>Description: <%= work.description %>
+                    </p>
+                    <p>Votes Received: <%= work.votes_received %>
+                    </p>
+                    <p>Uploaded by User ID: <%= work.user_id %>
+                    </p>
+
+                    <!-- 投票按钮 -->
+                    <% if (user) { %>
+                        <% if (user.votes_remaining> 0) { %>
+                            <form method="POST" action="/vote">
+                                <input type="hidden" name="work_id" value="<%= work.work_id %>">
+                                <button type="submit">Vote</button>
+                            </form>
+                            <% } else { %>
+                                <p>No votes remaining.</p>
+                                <% } %>
+                                    <% } else { %>
+                                        <p>Please <a href="/login">log in</a> to vote.</p>
+                                        <% } %>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>No works available.</p>
+                        <% } %>
+    </div>
+
+</body>
+
+</html>

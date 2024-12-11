@@ -1,15 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/search.css">
+    <!-- 引用Boxicons开源库 -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
+
 <body>
     <form action="/search-result" method="GET">
-    <p>What book do you want?</p>
-    <input id="search-box" type="text" name="keyword" value="Default">
-    <input type="submit" value="Search">
+        <header>
+            <input type="checkbox" name="check" id="check">
+
+            <h1 class="logo">LOGO</h1>
+            <nav class="nav">
+                <h1 class="logo">LOGO</h1>
+                <div class="divider"></div>
+                <a href="about">About</a>
+                <a href="search">Search</a>
+                <a href="upload">Upload</a>
+                <a href="/">Home</a>
+
+            </nav>
+
+            <div class="user-form-group">
+                <a class="login" href="login">Login</a>
+                <a class="signup" href="register">Register</a>
+                <label for="check">
+                    <i class='bx bx-menu menu'></i>
+                    <i class='bx bx-x close-menu'></i>
+                </label>
+            </div>
+        </header>
+
+
+        <div class="search_location ">
+            <label for="user_id">Enter User ID:</label>
+            <input type="number" id="user_id" name="user_id" class="search-input" required>
+            <button class="search_button " type="submit">Search</button>
+        </div>
     </form>
 </body>
+
 </html>

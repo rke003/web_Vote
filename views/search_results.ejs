@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/search.css">
+
+</head>
+
+<body>
+    <header>
+        <input type="checkbox" name="check" id="check">
+        <h1 class="logo">LOGO</h1>
+        <nav class="nav">
+            <h1 class="logo">LOGO</h1>
+            <div class="divider"></div>
+            <a href="about">About</a>
+            <a href="search">Search</a>
+            <a href="upload">Upload</a>
+            <a href="/">Home</a>
+        </nav>
+
+        <div class="user-form-group">
+            <a class="login" href="login">Login</a>
+            <a class="signup" href="register">Register</a>
+            <label for="check">
+                <i class='bx bx-menu menu'></i>
+                <i class='bx bx-x close-menu'></i>
+            </label>
+        </div>
+    </header>
+
+    <h1>Works Uploaded by User ID: <%= user_id %>
+    </h1>
+    <div class="search-gallery ">
+        <% if (works && works.length> 0) { %>
+            <% works.forEach(function(work) { %>
+                <div class="centered-image">
+                    <img src="<%= work.image_url %>" alt="Uploaded Photo">
+                    <p>Title: <%= work.title %>
+                    </p>
+                    <p>Description: <%= work.description %>
+                    </p>
+                    <p>Votes Received: <%= work.votes_received %>
+                    </p>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>No works found for this user.</p>
+                        <% } %>
+    </div>
+</body>
+
+</html>

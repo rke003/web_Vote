@@ -1,0 +1,115 @@
+/* 样式基础 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* 表单容器 */
+.upload-form-box {
+    position: relative;
+    width: 500px;
+    padding: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* 表单标题 */
+.upload-form-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+/* 表单输入框容器 */
+.upload-inputbox {
+    position: relative;
+    margin: 20px 0;
+    width: 100%;
+    border-bottom: 2px solid #fff;
+}
+
+.upload-inputbox input,
+.upload-inputbox textarea {
+    width: 100%;
+    height: 20px;
+    /* 输入框高度 */
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 50px 10px;
+    /* 设置上下左右的内边距 */
+    color: white;
+    resize: none;
+    line-height: 1.5;
+    /* 确保行高一致 */
+    box-sizing: border-box;
+}
+
+.upload-inputbox textarea {
+    height: 250px;
+    /* 单独设置 textarea 的高度 */
+    overflow-y: scroll;
+    /* 超出内容显示滚动条 */
+}
+
+.upload-inputbox label {
+    position: absolute;
+    top: 10%;
+    /* 默认垂直居中 */
+    left: 10px;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.upload-inputbox input:focus~label,
+.upload-inputbox textarea:focus~label {
+    font-size: 20px;
+    /* 向上移动 */
+    color: white;
+}
+
+.upload-submit {
+    width: 100%;
+    height: 40px;
+
+    background: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.upload-register {
+    font-size: .9em;
+    color: #ffffff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.upload-register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}

@@ -8,91 +8,120 @@
 
     <!-- 引入外部css文件 -->
     <link rel="stylesheet" href="/css/styles.css">
+
+    <link rel="stylesheet" href="/css/form.css">
+
 </head>
 
 <body>
-    <form method="POST" action="/registered">
-        <p>
-            First name:
-            <input id="first" type="text" name="first" placeholder="First name"
-                value="<%= formData ? formData.first : '' %>"
-                class="<%= errors && errors.some(e => e.field === 'first') ? 'error' : '' %>" />
 
-        </p>
+    <section>
+        <div class="form-box2">
+            <div class="form-value">
+                <form method="POST" action="/registered">
+                    <h2>Register</h2>
+                    <div class="inputbox2">
 
-        <p>
-            Last name:
-            <input id="last" type="text" name="last" placeholder="Last name"
-                value="<%= formData ? formData.last : '' %>"
-                class="<%= errors && errors.some(e => e.field === 'last') ? 'error' : '' %>" />
+                        <input id="first" type="text" name="first" placeholder="First name"
+                            value="<%= formData ? formData.first : '' %>"
+                            class="<%= errors && errors.some(e => e.field === 'first') ? 'error' : '' %>" />
+                        <label for="">First name</label>
+                    </div>
 
-        </p>
+                    <div class="inputbox2">
 
-        <p>
-            Email:
-            <input id="email" type="email" name="email" placeholder="Enter your email"
-                value="<%= formData ? formData.email : '' %>"
-                class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" />
-            <% if (errors && errors.some(e=> e.field === 'email')) { %>
-                <span class="error-text" style="color:red"> Email is already registerd or invalid.</span>
-                <% } %>
-        </p>
-
-        <p>
-            Password:
-            <input id="password" type="password" name="password" placeholder="Enter your password"
-                class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" />
-
-        </p>
-
-        <p>
-            Confirm Password:
-            <input id="confirm-password" type="password" name="confirmPassword" placeholder="Confirm your password"
-                class="<%= errors && errors.some(e => e.field === 'confirmPassword') ? 'error' : '' %>" />
-
-        </p>
-
-        <p>
-            Phone (optional):
-            <input id="phone" type="tel" name="phone" placeholder="Enter your phone number"
-                value="<%= formData ? formData.phone : '' %>" />
-        </p>
-
-        <p>
-            Your Occupation:
-            <select name="Occupation" id="Occupation"
-                class="<%= errors && errors.some(e => e.field === 'Occupation') ? 'error' : '' %>">
-                <option value="">Select your Occupation</option>
-                <option value="Student" <%=formData.Occupation==='Student' ? 'selected' : '' %>> Student </option>
-                <option value="Academic" <%=formData.Occupation==='Academics' ? 'selected' : '' %>> Academics </option>
-                <option value="Industries" <%=formData.Occupation==='Industries' ? 'selected' : '' %>> Industries
-                </option>
-                <option value="Other" <%=formData.Occupation==='Other' ? 'selected' : '' %>> Other </option>
-            </select>
-        </p>
-
-        <p>
-            Country of your organization :
-            <input list="countries" name="country" id="country" placeholder="Select your country"
-                class="<%= errors && errors.some(e => e.field === 'country') ? 'error' : '' %>">
-            <datalist id="countries">
-                <% countryList.forEach(function(country) { %>
-                    <option value="<%= country %>"></option>
-                    <% }) %>
-            </datalist>
-        </p>
-
-        <p>
-            Name of your organization:
-            <input id="organization" type="text" name="organization" placeholder="Enter your organization name"
-                value="<%= formData ? formData.organization : '' %>"
-                class="<%= errors && errors.some(e=> e.field === 'organization') ? 'error' : '' %>" />
-        </p>
+                        <input id="last" type="text" name="last" placeholder="Last name"
+                            value="<%= formData ? formData.last : '' %>"
+                            class="<%= errors && errors.some(e => e.field === 'last') ? 'error' : '' %>" />
+                        <label for="">Last name</label>
+                    </div>
 
 
-        <input type="submit" value="Register" />
-    </form>
+                    <div class="inputbox2">
+                        <input id="email" type="email" name="email" placeholder="Enter your email"
+                            value="<%= formData ? formData.email : '' %>"
+                            class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" />
+                        <% if (errors && errors.some(e=> e.field === 'email')) { %>
+                            <span class="error-text" style="color:red"> Email is already registerd or
+                                invalid.</span>
+                            <% } %>
+                                <label for=""> Email</label>
+                    </div>
 
+                    <div class="inputbox2">
+
+                        <input id="password" type="password" name="password" placeholder="Enter your password"
+                            class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" />
+                        <label for=""> Password</label>
+
+                    </div>
+
+                    <div class="inputbox2">
+
+                        <input id="confirm-password" type="password" name="confirmPassword"
+                            placeholder="Confirm your password"
+                            class="<%= errors && errors.some(e => e.field === 'confirmPassword') ? 'error' : '' %>" />
+                        <label for="">Confirm Password</label>
+                    </div>
+
+                    <div class="inputbox2">
+
+                        <input id="phone" type="tel" name="phone" placeholder="Enter your phone number"
+                            value="<%= formData ? formData.phone : '' %>" />
+                        <label for="">Phone (optional)</label>
+                    </div>
+
+                    <div class="inputbox2">
+                        <label for="">Your Occupation</label>
+                        <select name="Occupation" id="Occupation"
+                            class="<%= errors && errors.some(e => e.field === 'Occupation') ? 'error' : '' %>">
+
+                            <option value="">Select your Occupation</option>
+
+                            <option value="Student" <%=formData.Occupation==='Student' ? 'selected' : '' %>>
+                                Student
+                            </option>
+                            <option value="Academic" <%=formData.Occupation==='Academics' ? 'selected' : '' %>>
+                                Academics </option>
+                            <option value="Industries" <%=formData.Occupation==='Industries' ? 'selected' : '' %>>
+                                Industries
+                            </option>
+                            <option value="Other" <%=formData.Occupation==='Other' ? 'selected' : '' %>>
+                                Other </option>
+                        </select>
+
+                    </div>
+
+                    <div class="inputbox2">
+                        <input list="countries" name="country" id="country" placeholder="Select your country"
+                            class="<%= errors && errors.some(e => e.field === 'country') ? 'error' : '' %>">
+                        <datalist id="countries">
+                            <% countryList.forEach(function(country) { %>
+                                <option value="<%= country %>"></option>
+                                <% }) %>
+                        </datalist>
+                        <label for="">Country of your organization</label>
+                    </div>
+
+                    <div class="inputbox2">
+
+                        <input id="organization" type="text" name="organization"
+                            placeholder="Enter your organization name"
+                            value="<%= formData ? formData.organization : '' %>"
+                            class="<%= errors && errors.some(e=> e.field === 'organization') ? 'error' : '' %>" />
+                        <label for="">Name of your organization</label>
+                    </div>
+
+
+                    <input type="submit" value="Register" class="submit" />
+                    <div class="register">
+                        <p><a href="/login">login</a></p>
+                        <p>Return <a href="/">Home page</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
     <!-- 引入外部的 JavaScript 文件 -->
     <script src="/js/validation.js"></script>
 </body>

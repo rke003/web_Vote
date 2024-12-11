@@ -67,6 +67,11 @@ app.use('/', uploadRoutes)
 const aboutRoutes = require('./routes/about');
 app.use('/', aboutRoutes);
 
+// search page
+const searchRoutes = require('./routes/search');
+app.use('/', searchRoutes);
+
+
 // Set up css
 app.use(express.static(__dirname + '/public'));
 

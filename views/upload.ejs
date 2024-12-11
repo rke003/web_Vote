@@ -5,28 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload work</title>
+
+    <!-- 引入外部css文件 -->
+    <link rel="stylesheet" href="/css/upload.css">
+
 </head>
 
 <body>
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-        <p>
-            Tittle:
-            <input id="title" type="text" name="title" placeholder="Enter your title here" required>
+    <section>
+        <div class="upload-form-box">
+            <div class="upload-form-value">
+                <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <h2>Upload your picture</h2>
+                    <div class="upload-inputbox">
+                        <input id="title" type="text" name="title" placeholder="Enter your title here" required>
+                        <label for="titler">Tittle</label>
 
-        </p>
-        <p>
-            Description:
-            <textarea id="description" name="description" placeholder="Enter work description(max 150 words)"
-                required></textarea>
-        </p>
-        <p>
-            Upload Image:
-            <input id="image" type="file" name="image" accept="image/*" required>
-        </p>
+                    </div>
+                    <div class="upload-inputbox">
 
-        <input type="submit" value="Upload">
+                        <textarea id="description" name="description"
+                            placeholder="Enter work description(max 150 words)" required></textarea>
+                        <label for="description">Description</label>
+                    </div>
+                    <div class="upload-inputbox">
 
-    </form>
+                        <input id="image" type="file" name="image" accept="image/*" class="submit" required>
+                        <label for="image">Upload Image</label>
+                    </div>
+
+                    <input type="submit" value="Upload" class="upload-submit">
+                    <div class="upload-register">
+
+                        <p>Return <a href="/">Home page</a></p>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

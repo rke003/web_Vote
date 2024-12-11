@@ -7,34 +7,53 @@
     <title>Login Page</title>
 
     <!-- 引入外部css文件 -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/form.css">
+
+
+    <!-- 引用Boxicons开源库 -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <form method="POST" action="/logined">
-        <h1>Login</h1>
-        <p>
-            Email:
-            <input id="email" type="email" name="email" placeholder="Enter your email"
-                value="<%= formData ? formData.email : '' %>"
-                class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" />
 
-        </p>
+<body class="form">
 
-        <p>
-            Password:
-            <input id="password" type="password" name="password" placeholder="Enter your password"
-                value="<%= formData ? formData.password : '' %>"
-                class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" />
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form method="POST" action="/logined">
+                    <h2>Login</h2>
+                    <div class="inputbox">
+                        <i class='bx bx-envelope'></i>
+                        <input id="email" type="email" name="email" value="<%= formData ? formData.email : '' %>"
+                            class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" required />
+                        <label for="">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <i class='bx bx-lock-alt'></i>
+                        <input id="password" type="password" name="password"
+                            value="<%= formData ? formData.password : '' %>"
+                            class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" required />
+                        <label for="">Possword</label>
+                    </div>
+                    <div class="forget">
+                        <label for=""><input type="checkbox">Remember me </label>
+                        <a href="#"> Forget Password</a>
+                    </div>
+                    <input type="submit" value="Login" class="submit" />
+                    <div class="register">
+                        <p>Don't have a account<a href="/register"> Register</a></p>
+                        <p>Return <a href="/">Home page</a></p>
 
-        </p>
+                    </div>
 
-        <input type="submit" value="Login" />
+                </form>
+            </div>
+        </div>
 
-
-    </form>
-    <!-- 引入外部的 JavaScript 文件 -->
-    <script src="/js/validation.js"></script>
+        </form>
+        <!-- 引入外部的 JavaScript 文件 -->
+        <script src="/js/validation.js"></script>
+    </section>
 </body>
 
 </html>

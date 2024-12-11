@@ -4,21 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title> Home page</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- 引用Boxicons开源库 -->
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+
 </head>
 
-<body>
+<body class="Main-background">
+
+
     <header>
-        <nav>
-            <ul>
-                <li><a href="about">About</a></li>
-                <li><a href="register">Register</a></li>
-                <li><a href="login">Login</a></li>
-                <li><a href="search">Search</a></li>
-                <li><a href="upload">Upload</a></li>
-            </ul>
+        <input type="checkbox" name="check" id="check">
+
+        <h1 class="logo">LOGO</h1>
+        <nav class="nav">
+            <h1 class="logo">LOGO</h1>
+            <div class="divider"></div>
+            <a href="about">About</a>
+            <a href="search">Search</a>
+            <a href="upload">Upload</a>
+
         </nav>
+
+        <div class="user-form-group">
+            <a class="login" href="login">Login</a>
+            <a class="signup" href="register">Register</a>
+            <label for="check">
+                <i class='bx bx-menu menu'></i>
+                <i class='bx bx-x close-menu'></i>
+            </label>
+        </div>
     </header>
+
+
+    <!-- 动态打字效果输出位置 -->
+    <div class="parent-container">
+        <div id="typed-output" class="typed-cursor"></div>
+    </div>
+
+
+
     <div><!-- 显示用户剩余票数 -->
         <% if (user) { %>
             <p>Your Remaining Votes: <%= user.votes_remaining %>
@@ -28,11 +56,11 @@
 
     <div>
         <!-- 用户的登录状态 -->
-        <h1> Photography Competition to Promote Fairness and Inclusiveness in Chemical Science Community</h1>
+
         <% if (user) { %>
             <p>Hello, <%= user.username %>! You are logged in.</p>
             <% } else { %>
-                <p>Please <a href="/login">log in</a> to access more features.</p>
+                <p>Please log in to access more features.</p>
                 <% } %>
     </div>
 
@@ -61,7 +89,7 @@
                                 <p>No votes remaining.</p>
                                 <% } %>
                                     <% } else { %>
-                                        <p>Please <a href="/login">log in</a> to vote.</p>
+
                                         <% } %>
                 </div>
                 <% }); %>
@@ -70,6 +98,10 @@
                         <% } %>
     </div>
 
+
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="/js/typed.js"></script>
 </body>
 
 </html>

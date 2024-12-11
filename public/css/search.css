@@ -1,0 +1,115 @@
+/* 整体表单样式 */
+.search_location {
+    text-align: center;
+    /* 水平居中 */
+    position: absolute;
+    top: 50%;
+    /* 距离顶部 50% */
+    left: 47%;
+    /* 距离左侧 50% */
+    transform: translate(-50%, -50%);
+    /* 调整偏移，实现真正居中 */
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px 16px;
+    transition: 300ms;
+}
+
+/* 按钮样式 */
+.search_button {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+/* 按钮悬停效果 */
+.search_button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+}
+
+/* 输入框样式 */
+.search-input {
+    width: 300px;
+    height: 40px;
+    font-size: 1rem;
+    padding: 0 20px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    background-color: transparent;
+    color: white;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* 输入框聚焦样式 */
+.search-input:focus {
+    border-color: white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.search-gallery {
+    display: flex;
+    /* 使用 flexbox 布局 */
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    height: 100vh;
+    /* 父容器高度，用于演示 */
+}
+
+.centered-image {
+    border-radius: 8px;
+    /* 圆角边框 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    /* 卡片阴影 */
+    padding: 16px;
+    text-align: center;
+    max-width: 1000px;
+    /* 限制图片卡片最大宽度 */
+}
+
+/* 图片样式 */
+.centered-image img {
+    max-width: 100%;
+    /* 图片宽度自适应 */
+    height: auto;
+    /* 保持图片比例 */
+    border-radius: 8px;
+    /* 图片圆角 */
+    margin-bottom: 12px;
+}
+
+/* 图片描述文字 */
+.centered-image p {
+    color: #fff;
+    /* 白色文字 */
+    font-size: 1.5rem;
+    margin: 8px 0;
+}
+
+/* 标题样式 */
+h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 760px) {
+    .centered-image {
+        max-width: 100%;
+        /* 小屏幕图片宽度自动调整 */
+    }
+}

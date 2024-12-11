@@ -1,8 +1,8 @@
--- Creation of databases
+-- create_db.sql
 CREATE DATABASE IF NOT EXISTS vote_project2024;
 USE vote_project2024;
 
--- Create users table
+-- Creating the users table
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(15)
 );
 
--- Create works table
+-- Creating the works table
 CREATE TABLE IF NOT EXISTS works (
     work_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS works (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Create votes table
+-- Creating the votes table
 CREATE TABLE IF NOT EXISTS votes (
     vote_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -39,4 +39,3 @@ CREATE TABLE IF NOT EXISTS votes (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (work_id) REFERENCES works(work_id)
 );
-

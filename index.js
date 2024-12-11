@@ -26,6 +26,9 @@ db.connect((err) => {
 
 global.db = db;
 
+// Set up css
+app.use(express.static(__dirname + '/public'));
+
 // Tell Express that we want to use EJS as the templating engine
 app.set('view engine', 'ejs');
 
@@ -67,8 +70,6 @@ app.use('/', aboutRoutes);
 const searchRoutes = require('./routes/search');
 app.use('/', searchRoutes);
 
-// Set up css
-app.use(express.static(__dirname + '/public'));
 
 
 // Start listening for HTTP requests

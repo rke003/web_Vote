@@ -1,38 +1,31 @@
 @import "~boxicons/css/boxicons.min.css";
 
-/* 处理错误的样式 */
+/* Style for handling errors */
 .error {
     border: 2px solid red;
 }
 
-/* 用于设置输入文字的样式 */
+/* Used to set the style of the input text */
 .parent-container {
     max-width: 1200px;
-    /* 控制内容最大宽度，避免文本在超宽屏幕上太过延展 */
     margin: 100px auto;
-    /* 上下留白50px，并自动水平居中 */
     padding: 0 20px;
-    /* 左右留白20px，确保两边有空隙 */
     text-align: center;
-    /* 文本居中对齐 */
 }
 
 #typed-output {
     white-space: pre-wrap;
-    /* 允许文本换行 */
     line-height: 1.2;
     color: rgb(255, 255, 255);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     font-size: 60px;
     display: inline;
-    /* 与光标一起内联显示 */
     vertical-align: bottom;
 }
 
 .typed-cursor {
     color: black;
     font-size: 60px;
-    /* 与文本保持一致 */
     display: inline;
     vertical-align: bottom;
 }
@@ -42,7 +35,7 @@
 /* The style of the Header section is derived from the [How to Create Responsive Navber using HTML and CSS]
 Original author: 悟禅禅
 link：https: //www.xiaohongshu.com/explore/65e6a4ce0000000004003f68?app_platform=ios&app_version=8.64&share_from_user_hidden=true&xsec_source=app_share&type=video&xsec_token=CBEt7b4rxYM4yB--y13d-qfz4Y_-oYcmXSvIryf01ZFH0=&author_share=1&xhsshare=CopyLink&shareRedId=ODwzOTQ-PDk2NzUyOTgwNjY6OTc6Sj5M&apptime=1733845603&share_id=b6449fbd92b34fe283dae54d5487195a
-/* 头部导航栏的样式 */
+/* Styling of the header navigation bar */
 header {
     display: flex;
     align-items: center;
@@ -98,6 +91,7 @@ header {
     display: none;
 }
 
+/* There's a bug here that hasn't been tweaked yet */
 /* .user-form-group label {
     display: none;
 } */
@@ -171,7 +165,6 @@ header {
 
     #typed-output {
         font-size: 1.5rem;
-        /* 缩小字体大小 */
     }
 
 }
@@ -187,15 +180,10 @@ header {
 
 body {
     background-color: black;
-    /* 设置背景色为黑色 */
     color: white;
-    /* 设置文字颜色为白色 */
     margin: 0;
-    /* 清除默认外边距 */
     align-items: center;
-    /* 垂直居中 */
     text-align: center;
-    /* 水平居中 */
 }
 
 .about-p {
@@ -206,33 +194,25 @@ body {
 
 h1 {
     text-align: center;
-    /* 水平居中 */
     margin: 20px 0;
-    /* 设置上下间距 */
-
 }
 
 
-/* 设置画廊样式 */
+/* Setting the gallery style */
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 每行 3 列 */
+    /* 3 columns per row */
     gap: 20px;
-    /* 图片间的间距 */
+    /* Spacing between images */
     margin: 20px;
 }
 
-/* 设置图片样式 */
+/* Setting the image style */
 .gallery img {
     width: 100%;
-    /* 确保图片填满单元格 */
     height: auto;
-    /* 保持图片比例 */
     border-radius: 10px;
-    /* 可选：让图片有圆角 */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    /* 可选：图片阴影 */
     object-fit: cover;
-    /* 裁剪图片以适应框 */
 }

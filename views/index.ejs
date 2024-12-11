@@ -7,7 +7,7 @@
     <title> Home page</title>
 
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- 引用Boxicons开源库 -->
+    <!-- Cites Boxicons open source library -->
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
 
@@ -40,14 +40,14 @@
     </header>
 
 
-    <!-- 动态打字效果输出位置 -->
+    <!-- Dynamic typing effect output location -->
     <div class="parent-container">
         <div id="typed-output" class="typed-cursor"></div>
     </div>
 
 
 
-    <div><!-- 显示用户剩余票数 -->
+    <div><!-- Show user's remaining votes -->
         <% if (user) { %>
             <p>Your Remaining Votes: <%= user.votes_remaining %>
             </p>
@@ -55,7 +55,7 @@
     </div>
 
     <div>
-        <!-- 用户的登录状态 -->
+        <!-- User's login status -->
 
         <% if (user) { %>
             <p>Hello, <%= user.username %>! You are logged in.</p>

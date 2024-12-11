@@ -1,4 +1,4 @@
-/* 样式基础 */
+/* Style basics */
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@ section {
     margin: 0;
 }
 
-/* 表单容器 */
+/* Forms container */
 .upload-form-box {
     position: relative;
     width: 500px;
@@ -27,7 +27,7 @@ section {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* 表单标题 */
+/* Title of form */
 .upload-form-box h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -37,7 +37,7 @@ section {
     color: white;
 }
 
-/* 表单输入框容器 */
+/* Form input box container */
 .upload-inputbox {
     position: relative;
     margin: 20px 0;
@@ -49,31 +49,28 @@ section {
 .upload-inputbox textarea {
     width: 100%;
     height: 20px;
-    /* 输入框高度 */
+    /* Height of input box */
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
     padding: 50px 10px;
-    /* 设置上下左右的内边距 */
     color: white;
     resize: none;
     line-height: 1.5;
-    /* 确保行高一致 */
     box-sizing: border-box;
 }
 
 .upload-inputbox textarea {
     height: 250px;
-    /* 单独设置 textarea 的高度 */
+    /* Set the height of the textarea separately */
     overflow-y: scroll;
-    /* 超出内容显示滚动条 */
+    /* Scroll bar for out-of-content display */
 }
 
 .upload-inputbox label {
     position: absolute;
     top: 10%;
-    /* 默认垂直居中 */
     left: 10px;
     transform: translateY(-50%);
     color: rgba(255, 255, 255, 0.7);
@@ -85,7 +82,6 @@ section {
 .upload-inputbox input:focus~label,
 .upload-inputbox textarea:focus~label {
     font-size: 20px;
-    /* 向上移动 */
     color: white;
 }
 

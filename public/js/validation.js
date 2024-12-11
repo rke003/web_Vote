@@ -12,63 +12,63 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (event) {
         let isValid = true;
 
-        // 重置所有错误样式
+        // Reset all error styles
         [firstName, lastName, email, password, confirmPassword, occupation, country, organization].forEach(field => {
             field.classList.remove('error');
         });
 
-        // 验证 First Name
+        // Verify the first name
         if (!firstName.value.trim()) {
             firstName.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Last Name
+        // Verification Last Name
         if (!lastName.value.trim()) {
             lastName.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Email
+        // Verification Email
         if (!email.value.trim()) {
             email.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Password
+        // Verification Password
         if (!password.value.trim()) {
             password.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Confirm Password
+        // Verification Confirm Password
         if (password.value !== confirmPassword.value || !confirmPassword.value.trim()) {
             confirmPassword.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Occupation
+        // Verification Occupation
         if (!occupation.value.trim()) {
             occupation.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Country
+        // Verification Country
         if (!country.value.trim()) {
             country.classList.add('error');
             isValid = false;
         }
 
-        // 验证 Organization
+        // Verification Organization
         if (!organization.value.trim()) {
             organization.classList.add('error');
             isValid = false;
         }
 
-        // 如果有任何错误，阻止提交
+        // If there are any errors, block the submission
         if (!isValid) {
             alert('Please fill in all required fields correctly.');
-            event.preventDefault(); // 阻止表单提交
+            event.preventDefault(); // Block form submissions
         }
     });
 });

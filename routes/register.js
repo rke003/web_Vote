@@ -3,18 +3,18 @@ const express = require('express');
 const router = express.Router();
 const countries = require('countries-list').countries;
 
-// 注册页面
+// Registration page
 router.get("/register", function (req, res) {
     const countryList = Object.values(countries).map(country => country.name);
     res.render("register.ejs", { errors: [], formData: {}, countryList });
 });
 
-// 注册反馈处理
+// Register for feedback processing
 router.post('/registered', function (req, res) {
     const { first, last, email, password, confirmPassword, phone, Occupation, country, organization } = req.body;
     let errors = [];
 
-    // 验证各个字段
+    // Validate individual fields
     if (!first || first.trim() === '') {
         errors.push({ field: 'first', message: 'First name is required.' });
     }
@@ -40,36 +40,36 @@ router.post('/registered', function (req, res) {
         errors.push({ field: 'organization', message: 'Organization name is required.' });
     }
 
-    // 检查密码是否匹配
+    // Check if the passwords match
     if (password !== confirmPassword) {
         errors.push({ field: 'confirmPassword', message: 'Passwords do not match.' });
     }
 
-    // 如果有错误，重新渲染注册页面并附带错误信息和国家列表
+    // If there is an error, re-render the registration page with the error message and list of countries
     const countryList = Object.values(countries).map(country => country.name);
     if (errors.length > 0) {
         res.render('register.ejs', { errors, formData: req.body, countryList });
         return;
     }
 
-    // 查询数据库是否有相同的邮箱
+    // Query the database for the same mailbox
     const checkEmailQuery = "SELECT * FROM users WHERE email = ?";
     db.query(checkEmailQuery, [email], (err, results) => {
         if (err) {
             return res.status(500).send("Internal server error");
         }
 
-        // 如果邮箱已存在
+        // If the mailbox already exists
         if (results.length > 0) {
             errors.push({ field: 'email', message: 'Email is already registered.' });
             res.render('register.ejs', { errors, formData: req.body, countryList });
             return;
         }
 
-        // 注册成功
+        // Successful registration
         res.send(`Hello ${first} ${last}, you are now registered! We will send an email to you at ${email}.`);
-
-        let username = first + ' ' + last; // 合并 first 和 last 名为 username
+        // Merge first and last names into username
+        let username = first + ' ' + last;
         // Saving data in database
         let sqlquery = "INSERT INTO users (username, email, password_hash, occupation, organization_country, organization_name, phone, votes_remaining) VALUES (?, ?, ?, ?, ?, ?, ?, 3)";
         // execute sql query
@@ -86,5 +86,5 @@ router.post('/registered', function (req, res) {
     });
 });
 
-// 导出路由模块
+
 module.exports = router;

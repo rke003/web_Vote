@@ -16,7 +16,7 @@ router.get('/search-result', function (req, res) {
     }
 
 
-    //查询数据库获取用户作品
+    // Query the database for user works
     const sqlquery = "SELECT * FROM works WHERE user_id = ?";
     db.query(sqlquery, [userId], (err, results) => {
         if (err) {
@@ -24,7 +24,7 @@ router.get('/search-result', function (req, res) {
             return res.status(500).send("Internal server error.")
         }
 
-        //检查是否有作品
+        // Check for availability of works
         if (results.length === 0) {
             return res.status(404).send("No works found for the given User ID.");
         }

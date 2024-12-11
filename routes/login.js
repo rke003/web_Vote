@@ -2,17 +2,17 @@
 const express = require("express");
 const router = express.Router();
 
-// 登录页面
+// Login page
 router.get("/login", function (req, res) {
     res.render("login.ejs", { errors: [], formData: {} });
 });
 
-// 登录处理逻辑
+// Login processing logic
 router.post('/logined', function (req, res) {
     const { email, password } = req.body;
     let errors = [];
 
-    // 验证邮箱和密码是否为空
+    // Verify that the mailbox and password are empty
     if (!email || email.trim() === '') {
         errors.push({ field: 'email', message: 'Email is required.' });
     }
@@ -20,14 +20,14 @@ router.post('/logined', function (req, res) {
         errors.push({ field: 'password', message: 'Password is required.' });
     }
 
-    // 如果有错误，重新渲染登录页面并附带错误信息
+    // If there is an error, re-render the login page with the error message
     if (errors.length > 0) {
         res.render('login.ejs', { errors, formData: req.body });
         return;
     }
 
 
-    //数据库
+    // Database
     const sqlquery = "SELECT * FROM users Where email = ? AND password_hash = ?";
     db.query(sqlquery, [email, password], (err, results) => {
         if (err) {
@@ -35,24 +35,24 @@ router.post('/logined', function (req, res) {
             return res.status(500).send("Internal server error");
         }
 
-        //如果找不到匹配用户
+        //If no matching user can be found
         if (results.length === 0) {
             errors.push({ field: 'email', message: 'Incorrect wmail or password.' });
             return res.render('login.ejs', { errors, formData: req.body });
         }
 
-        // 找到用户并创建会话
-        const user = results[0]; // 确保只在有结果时访问
+        // Find the user and create a session
+        const user = results[0]; 
         req.session.user = {
             id: user.user_id,
             email: user.email,
             username: user.username
         };
 
-        // 重定向到主页
+        // Redirect to homepage
         res.redirect('/');
     });
 });
 
-// 导出路由模块
+// Export Routing Module
 module.exports = router;

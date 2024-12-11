@@ -1,20 +1,21 @@
-// 创建一个新的通道
+// Create a new channel
 const express = require("express");
 const router = express.Router();
 
 
 // Handle the main routes
-//主页面
+// Main page
 router.get('/', function (req, res) {
-    const user = req.session.user || null; // 从 session 中获取用户
+    // Get user from session
+    const user = req.session.user || null; 
 
-    // 定义一个函数用于完成渲染逻辑的封装
+    // Define a function to encapsulate the rendering logic.
     function renderPage(userData, worksData) {
         res.render('index.ejs', { user: userData, works: worksData });
     }
 
-    //此处逻辑主要用于显示用户的可投票数，以及当前作品的被投票数。
-    // 如果用户已经登录，则先获取用户剩余票数
+    // The logic here is mainly used to display the number of votes available to the user, and the number of votes that have been cast for the current entry.
+    // If the user is already logged in, the user's remaining votes will be retrieved first.
     if (user) {
         const userQuery = "SELECT votes_remaining FROM users WHERE user_id = ?";
         db.query(userQuery, [user.id], function (err, userResult) {
@@ -24,11 +25,11 @@ router.get('/', function (req, res) {
             }
 
             if (userResult.length > 0) {
-                //更新session中用户剩余的票数
+                //Update the number of votes remaining for the user in the session
                 req.session.user.votes_remaining = userResult[0].votes_remaining;
             }
 
-            // 现在再次查询作品数据
+            // Now query the work data again
             let sqlquery = "SELECT * FROM works";
             db.query(sqlquery, function (err, works) {
                 if (err) {
@@ -36,12 +37,12 @@ router.get('/', function (req, res) {
                     return res.redirect('/');
                 }
 
-                //用户和作品都准本好以后再次进行渲染
+                // Render again when both the user and the artwork are ready.
                 renderPage(req.session.user, works);
             });
         });
     } else {
-        //用户未登录只查询作品
+        //User not logged in to search for works only
         let sqlquery = "SELECT * FROM works";
         db.query(sqlquery, function (err, works) {
             if (err) {
@@ -54,19 +55,19 @@ router.get('/', function (req, res) {
 
 
 
-// 投票逻辑实现部分
+// Voting logic implementation section
 router.post('/vote', (req, res) => {
-    // 从会话中获得用户ID
+    // Get the user ID from the session
     const userId = req.session.user?.id;
-    // 获取请求体中的作品id
+    // Get the id of the work in the request body
     const { work_id } = req.body;
 
-    //未登录用户无法投票
+    //Non-logged-in users cannot vote
     if (!userId) {
         return res.status(403).send('You must be logged in to vote.');
     }
 
-    //检查当前用户是否已经为该作品投过票
+    //Check if the current user has already voted for the work
     const checkVoteQuery = "SELECT * FROM votes WHERE user_id = ? AND work_id = ?";
     db.query(checkVoteQuery, [userId, work_id], function (err, results) {
         if (err) {
@@ -74,38 +75,39 @@ router.post('/vote', (req, res) => {
         }
 
         if (results.length > 0) {
-            // 用户已为该作品投过票，不能重复投
+            // Users who have already voted for this entry cannot vote again.
             return res.status(400).send('You have already voted for this work.');
         }
 
-        // 如果没有投过票，则将投票记录插入到votes表
+        // If no votes have been cast, insert the vote record into the votes table
         const insertVoteQuery = "INSERT INTO votes (user_id, work_id) VALUES (?, ?)";
         db.query(insertVoteQuery, [userId, work_id], function (err, result) {
             if (err) {
                 return res.status(500).send('Database error');
             }
 
-            // 成功插入投票记录后，更新用户的剩余票数（减1）
+            // Upon successful insertion of a voting record, update the user's remaining votes (minus 1)
             const updateUserVotesQuery = "UPDATE users SET votes_remaining = votes_remaining - 1 WHERE user_id = ? AND votes_remaining > 0";
             db.query(updateUserVotesQuery, [userId], function (err, result) {
                 if (err) {
                     return res.status(500).send('Error updating user votes');
                 }
 
-                // // 更新作品的获得票数（加1）
+                // Number of votes received for updated works (plus 1)
                 const updateWorkVotesQuery = "UPDATE works SET votes_received = votes_received + 1 WHERE work_id = ?";
                 db.query(updateWorkVotesQuery, [work_id], function (err) {
                     if (err) {
                         return res.status(500).send('Error updating work votes');
                     }
 
-                    // 更新session中用户的剩余票数以保持一致性
+                    // Update the number of remaining votes for the user in the session to maintain consistency
                     const getUserQuery = "SELECT votes_remaining FROM users WHERE user_id = ?";
                     db.query(getUserQuery, [userId], function (err, userResult) {
                         if (!err && userResult.length > 0) {
                             req.session.user.votes_remaining = userResult[0].votes_remaining;
                         }
-                        // 成功后返回主页
+
+                        // Return to home page after success
                         res.redirect('/');
                     });
                 });

@@ -8,6 +8,7 @@ This project was originally developed for an upcoming external chemistry educati
 
 ---
 # 2. Links
+[github repo](https://github.com/rke003/web_Vote.git)
 
 ---
 # 3. Architecture

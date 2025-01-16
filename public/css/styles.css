@@ -40,14 +40,14 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(0, 0, 0, 0.5);
-    height: 70px;
+    background: rgba(0, 0, 0);
+    height: 80px;
     padding: 0 30px;
 }
 
 .logo {
-
-    color: rgb(255, 255, 255);
+    max-width: 12%;
+    height: auto;
 }
 
 .nav a {
@@ -69,9 +69,31 @@ header {
     text-decoration: none;
     font-weight: 600;
     font-size: 18px;
+
+}
+
+/* Sign Out 按钮样式，与 Signup 保持一致 */
+.login,
+.signout {
+    color: rgb(255, 255, 255);
+    background: transparent;
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
 }
 
 .signup {
+    /* 方块 */
     border: rgba(255, 255, 255, 0.5) 2px solid;
     padding: 8px 16px;
     margin-left: 16px;
@@ -83,18 +105,16 @@ header {
     color: rgb(0, 0, 0)
 }
 
-.nav .logo {
-    display: none;
-}
+
 
 #check {
     display: none;
 }
 
 /* There's a bug here that hasn't been tweaked yet */
-/* .user-form-group label {
+.user-form-group label {
     display: none;
-} */
+}
 
 
 @media (max-width: 760px) {
@@ -113,10 +133,10 @@ header {
         box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .nav .logo {
-        margin-left: 16px;
-        margin-top: 30px;
-        display: block;
+
+    .logo {
+        max-width: 30%;
+        height: auto;
     }
 
     .divider {
@@ -129,6 +149,15 @@ header {
     .user-form-group {
         display: flex;
         align-items: center;
+    }
+
+    .user-form-group label {
+        display: flex;
+        /* 或者使用 block，根据需求调整 */
+        align-items: center;
+        /* 垂直居中内容 */
+        cursor: pointer;
+        /* 鼠标悬停时显示手型 */
     }
 
     .signup {
@@ -179,40 +208,99 @@ header {
 }
 
 body {
-    background-color: black;
+    font-family: Arial;
+    /* 示例字体 */
     color: white;
+    background-color: black;
     margin: 0;
     align-items: center;
     text-align: center;
+
 }
 
 .about-p {
     color: white;
-    font-size: 20px;
-    margin: 20px;
+    font-size: 1.3rem;
+    padding: 0 20%;
+    text-align: left;
 }
 
-h1 {
-    text-align: center;
-    margin: 20px 0;
+.about-email {
+    font-size: 1rem;
 }
 
 
-/* Setting the gallery style */
+/* 让整个 gallery 容器使用 flex-wrap */
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 columns per row */
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    /* Spacing between images */
-    margin: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
 }
 
-/* Setting the image style */
-.gallery img {
+/* 让每个作品卡片都有固定大小，并保持间距 */
+.gallery-item-container {
+    width: 30%;
+    max-width: 300px;
+    max-height: 400px;
+    text-align: center;
+    /* 让文字居中 */
+}
+
+/* 让图片填充容器 */
+.image-card {
     width: 100%;
-    height: auto;
+    height: 100%;
+    overflow: hidden;
     border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* 让图片等比例缩放 */
+.image-card img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+/* 页尾样式 */
+.footer {
+    background-color: black;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+    padding: 2% 10%;
+    margin-top: 30px;
+    font-size: 1rem;
+    width: 100%;
+    clear: both;
+    /* 确保 footer 不会浮动 */
+    position: relative;
+
+}
+
+.footer-img {
+    max-width: 100%;
+    height: auto;
+    max-width: 400px;
+}
+
+
+hr {
+    border: 0;
+    /* 移除默认样式 */
+    height: 1px;
+    /* 线条高度 */
+    background: rgba(255, 255, 255, 0.5);
+    /* 设置颜色和透明度 */
+    margin: 20px 0;
+    /* 上下间距 */
+    width: 100%;
+}
+
+.main-content {
+    min-height: calc(100vh - 150px);
+    /* 计算内容区域的高度，减去 footer */
+    padding-bottom: 20px;
+    /* 增加底部空间 */
 }

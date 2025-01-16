@@ -1,7 +1,13 @@
 // 引入 express
 const express = require('express');
+// 引入 bcrypt 进行密码加密
+const bcrypt = require('bcrypt');
 const router = express.Router();
 const countries = require('countries-list').countries;
+const { promisify } = require('util');
+
+// 直接使用 `global.db`，因为 `index.js` 里已经定义了 `db`
+const query = promisify(global.db.query).bind(global.db);
 
 // Registration page
 router.get("/register", function (req, res) {
@@ -10,81 +16,63 @@ router.get("/register", function (req, res) {
 });
 
 // Register for feedback processing
-router.post('/registered', function (req, res) {
+router.post('/registered', async function (req, res) {
     const { first, last, email, password, confirmPassword, phone, Occupation, country, organization } = req.body;
     let errors = [];
 
-    // Validate individual fields
-    if (!first || first.trim() === '') {
-        errors.push({ field: 'first', message: 'First name is required.' });
-    }
-    if (!last || last.trim() === '') {
-        errors.push({ field: 'last', message: 'Last name is required.' });
-    }
-    if (!email || email.trim() === '') {
-        errors.push({ field: 'email', message: 'Email is required.' });
-    }
-    if (!password || password.trim() === '') {
-        errors.push({ field: 'password', message: 'Password is required.' });
-    }
-    if (!confirmPassword || confirmPassword.trim() === '') {
-        errors.push({ field: 'confirmPassword', message: 'Confirm password is required.' });
-    }
-    if (!Occupation || Occupation.trim() === '') {
-        errors.push({ field: 'Occupation', message: 'Occupation is required.' });
-    }
-    if (!country || country.trim() === '') {
-        errors.push({ field: 'country', message: 'Country is required.' });
-    }
-    if (!organization || organization.trim() === '') {
-        errors.push({ field: 'organization', message: 'Organization name is required.' });
-    }
+    // 1️⃣  **数据校验**
+    if (!first || first.trim() === '') errors.push({ field: 'first', message: 'First name is required.' });
+    if (!last || last.trim() === '') errors.push({ field: 'last', message: 'Last name is required.' });
+    if (!email || email.trim() === '') errors.push({ field: 'email', message: 'Email is required.' });
+    if (!password || password.trim() === '') errors.push({ field: 'password', message: 'Password is required.' });
+    if (!confirmPassword || confirmPassword.trim() === '') errors.push({ field: 'confirmPassword', message: 'Confirm password is required.' });
+    if (!Occupation || Occupation.trim() === '') errors.push({ field: 'Occupation', message: 'Occupation is required.' });
+    if (!country || country.trim() === '') errors.push({ field: 'country', message: 'Country is required.' });
+    if (!organization || organization.trim() === '') errors.push({ field: 'organization', message: 'Organization name is required.' });
 
-    // Check if the passwords match
+    // 2️⃣ **密码校验**
     if (password !== confirmPassword) {
         errors.push({ field: 'confirmPassword', message: 'Passwords do not match.' });
     }
-
-    // If there is an error, re-render the registration page with the error message and list of countries
-    const countryList = Object.values(countries).map(country => country.name);
-    if (errors.length > 0) {
-        res.render('register.ejs', { errors, formData: req.body, countryList });
-        return;
+    if (password.length < 6) {
+        errors.push({ field: 'password', message: 'Password must be at least 6 characters long.' });
     }
 
-    // Query the database for the same mailbox
-    const checkEmailQuery = "SELECT * FROM users WHERE email = ?";
-    db.query(checkEmailQuery, [email], (err, results) => {
-        if (err) {
-            return res.status(500).send("Internal server error");
-        }
+    // 3️⃣ **如果有错误，重新渲染页面**
+    const countryList = Object.values(countries).map(country => country.name);
+    if (errors.length > 0) {
+        return res.render('register.ejs', { errors, formData: req.body, countryList });
+    }
 
-        // If the mailbox already exists
+    try {
+        // 4️⃣ **查询邮箱是否已注册**
+        const checkEmailQuery = "SELECT * FROM users WHERE email = ?";
+        const results = await query(checkEmailQuery, [email]); // ✅ `await` 查询
+
         if (results.length > 0) {
             errors.push({ field: 'email', message: 'Email is already registered.' });
-            res.render('register.ejs', { errors, formData: req.body, countryList });
-            return;
+            return res.render('register.ejs', { errors, formData: req.body, countryList });
         }
 
-        // Successful registration
-        res.send(`Hello ${first} ${last}, you are now registered! We will send an email to you at ${email}.`);
-        // Merge first and last names into username
-        let username = first + ' ' + last;
-        // Saving data in database
-        let sqlquery = "INSERT INTO users (username, email, password_hash, occupation, organization_country, organization_name, phone, votes_remaining) VALUES (?, ?, ?, ?, ?, ?, ?, 3)";
-        // execute sql query
-        let newrecord = [username, email, password, Occupation, country, organization, phone];
+        // 5️⃣ **加密密码**
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        db.query(sqlquery, newrecord, (err, result) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                res.render('register.ejs', { errors: [{ message: 'Database error. Please try again.' }], formData: req.body, countryList });
-            }
+        // 6️⃣ **插入数据库**
+        let username = `${first} ${last}`;
+        let sqlquery = `
+            INSERT INTO users (username, email, password_hash, occupation, organization_country, organization_name, phone, votes_remaining, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, 3, NOW(), NOW())`;
 
-        });
-    });
+        let newrecord = [username, email, hashedPassword, Occupation, country, organization, phone];
+        await query(sqlquery, newrecord); // ✅ `await` 插入数据库
+
+        console.log("User Registered Successfully:", email);
+        res.redirect('/login'); // ✅ **注册成功后跳转**
+
+    } catch (err) {
+        console.error("Error:", err);
+        return res.status(500).send("Internal server error");
+    }
 });
-
 
 module.exports = router;

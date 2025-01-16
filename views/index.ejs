@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Home page</title>
+    <title>Home page</title>
 
     <link rel="stylesheet" href="/css/styles.css">
     <!-- Cites Boxicons open source library -->
@@ -13,22 +13,22 @@
 
 <body class="Main-background">
 
-
     <header>
         <input type="checkbox" name="check" id="check">
+        <img src="/picture/aberdeen-logo.png" class="logo">
 
-        <h1 class="logo">LOGO</h1>
         <nav class="nav">
-            <h1 class="logo">LOGO</h1>
             <div class="divider"></div>
             <a href="about">About</a>
             <a href="search">Search</a>
             <a href="upload">Upload</a>
-
         </nav>
 
         <div class="user-form-group">
             <a class="login" href="login">Login</a>
+            <form action="/signout" method="POST" style="display: inline;">
+                <button type="submit" class="signout">Sign Out</button>
+            </form>
             <a class="signup" href="register">Register</a>
             <label for="check">
                 <i class='bx bx-menu menu'></i>
@@ -37,69 +37,72 @@
         </div>
     </header>
 
-
     <!-- Dynamic typing effect output location -->
     <div class="parent-container">
         <div id="typed-output" class="typed-cursor"></div>
     </div>
 
+    <!-- Show user's remaining votes -->
+    <% if (user) { %>
+        <p>Your Remaining Votes: <%= user.votes_remaining %>
+        </p>
+        <% } %>
 
+            <!-- User's login status -->
+            <% if (user) { %>
+                <p>Hello, <%= user.username %>! You are logged in.</p>
+                <% } else { %>
+                    <p>Please log in to access more features.</p>
+                    <% } %>
 
-    <div><!-- Show user's remaining votes -->
-        <% if (user) { %>
-            <p>Your Remaining Votes: <%= user.votes_remaining %>
-            </p>
-            <% } %>
-    </div>
+                        <!-- 图片展示部分 -->
+                        <div class="gallery">
+                            <% if (works.length> 0) { %>
+                                <% works.forEach(function(work) { %>
+                                    <div class="image-card gallery-item gallery-item-container ">
+                                        <img src="<%= work.image_url %>" alt="Uploaded Photo">
+                                        <p>Title: <%= work.title %>
+                                        </p>
+                                        <p>Description: <%= work.description %>
+                                        </p>
+                                        <p>Votes Received: <%= work.votes_received %>
+                                        </p>
+                                        <p>Uploaded by User ID: <%= work.user_id %>
+                                        </p>
 
-    <div>
-        <!-- User's login status -->
+                                        <!-- 投票按钮 -->
+                                        <% if (user && user.votes_remaining> 0) { %>
+                                            <form method="POST" action="/vote">
+                                                <input type="hidden" name="work_id" value="<%= work.work_id %>">
+                                                <button type="submit">Vote</button>
+                                            </form>
+                                            <% } else if (user) { %>
+                                                <p>No votes remaining.</p>
+                                                <% } %>
+                                    </div>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <p>No works available.</p>
+                                            <% } %>
+                        </div>
 
-        <% if (user) { %>
-            <p>Hello, <%= user.username %>! You are logged in.</p>
-            <% } else { %>
-                <p>Please log in to access more features.</p>
-                <% } %>
-    </div>
+                        <!-- Footer -->
+                        <footer class="footer">
+                            <div>
+                                <img src="/picture/aberdeen.png" class="footer-img">
+                                <p>University of Aberdeen</p>
+                                <p>King's College,</p>
+                                <p>Aberdeen,</p>
+                                <p>AB24 3FX</p>
+                                <hr>
+                                <h3>Contact</h3>
+                                <p>Dr. Yeshui Zhang (yeshui.zhang@abdn.ac.uk)</p>
+                            </div>
+                        </footer>
 
-    <div class="gallery">
-        <% if (works.length> 0) { %>
-            <% works.forEach(function(work) { %>
-                <div class="image-card">
-                    <img src="<%= work.image_url %>" alt="Uploaded Photo">
-                    <p>Title: <%= work.title %>
-                    </p>
-                    <p>Description: <%= work.description %>
-                    </p>
-                    <p>Votes Received: <%= work.votes_received %>
-                    </p>
-                    <p>Uploaded by User ID: <%= work.user_id %>
-                    </p>
-
-                    <!-- 投票按钮 -->
-                    <% if (user) { %>
-                        <% if (user.votes_remaining> 0) { %>
-                            <form method="POST" action="/vote">
-                                <input type="hidden" name="work_id" value="<%= work.work_id %>">
-                                <button type="submit">Vote</button>
-                            </form>
-                            <% } else { %>
-                                <p>No votes remaining.</p>
-                                <% } %>
-                                    <% } else { %>
-
-                                        <% } %>
-                </div>
-                <% }); %>
-                    <% } else { %>
-                        <p>No works available.</p>
-                        <% } %>
-    </div>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="/js/typed.js"></script>
+                        <!-- Scripts -->
+                        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+                        <script src="/js/typed.js"></script>
 </body>
 
 </html>

@@ -7,7 +7,7 @@ const router = express.Router();
 // Main page
 router.get('/', function (req, res) {
     // Get user from session
-    const user = req.session.user || null; 
+    const user = req.session.user || null;
 
     // Define a function to encapsulate the rendering logic.
     function renderPage(userData, worksData) {
@@ -55,7 +55,7 @@ router.get('/', function (req, res) {
 
 
 
-// Voting logic implementation section
+// 表决逻辑实施部分
 router.post('/vote', (req, res) => {
     // Get the user ID from the session
     const userId = req.session.user?.id;
@@ -116,6 +116,14 @@ router.post('/vote', (req, res) => {
     });
 });
 
-
+router.post('/signout', function (req, res) {
+    req.session.destroy(err => {
+        if (err) {
+            console.error("Error destroying session: ", err);
+            return res.status(500).send("Internal server error");
+        }
+        res.redirect('/');
+    });
+});
 //Export the router object so index.js can access it
 module.exports = router;

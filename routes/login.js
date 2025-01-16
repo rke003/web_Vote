@@ -1,5 +1,7 @@
 // routes/login.js
 const express = require("express");
+const bcrypt = require("bcrypt");  // 引入 bcrypt 进行密码比对
+const { use } = require("./main");
 const router = express.Router();
 
 // Login page
@@ -12,7 +14,7 @@ router.post('/logined', function (req, res) {
     const { email, password } = req.body;
     let errors = [];
 
-    // Verify that the mailbox and password are empty
+    // 1. 验证邮箱和密码是否为空
     if (!email || email.trim() === '') {
         errors.push({ field: 'email', message: 'Email is required.' });
     }
@@ -20,29 +22,39 @@ router.post('/logined', function (req, res) {
         errors.push({ field: 'password', message: 'Password is required.' });
     }
 
-    // If there is an error, re-render the login page with the error message
+    // 2. 如果出现错误，重新渲染登录页面，并显示错误信息
     if (errors.length > 0) {
         res.render('login.ejs', { errors, formData: req.body });
         return;
     }
 
 
-    // Database
-    const sqlquery = "SELECT * FROM users Where email = ? AND password_hash = ?";
-    db.query(sqlquery, [email, password], (err, results) => {
+    // 3️.查询数据库中的用户
+    const sqlquery = "SELECT * FROM users Where email = ?";
+    db.query(sqlquery, [email], async (err, results) => {
         if (err) {
             console.error("Database error: ", err.message);
             return res.status(500).send("Internal server error");
         }
 
-        //If no matching user can be found
+        //4. If no matching user can be found
         if (results.length === 0) {
             errors.push({ field: 'email', message: 'Incorrect wmail or password.' });
             return res.render('login.ejs', { errors, formData: req.body });
         }
 
-        // Find the user and create a session
-        const user = results[0]; 
+        // 5. 获取用户信息
+        const user = results[0];
+        const hashedPassword = user.password_hash;
+
+        // 6. 使用bcrypt.compare()检查密码是否匹配数据库里的字符串
+        const isMatch = await bcrypt.compare(password, hashedPassword);
+        if (!isMatch) {
+            errors.push({ field: 'email', message: 'Incorrect email or password.' });
+            return res.render('login.ejs', { error, formData: req.body });
+        }
+
+        // 7.如果密码匹配，创建会话
         req.session.user = {
             id: user.user_id,
             email: user.email,

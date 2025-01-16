@@ -60,6 +60,7 @@ h2 {
     margin: 20px;
     width: 410px;
     border-bottom: 2px solid #fff;
+    color: #ffffff;
 }
 
 
@@ -91,7 +92,7 @@ h2 {
     outline: none;
     font-size: 1em;
     padding: 0 35px 0px 5px;
-    /* color: #ffffff; */
+    color: #ffffff;
 }
 
 input:focus~label,

@@ -10,6 +10,7 @@ This project was originally developed for an upcoming external chemistry educati
 # 2. Links
 [github repo](https://github.com/rke003/web_Vote.git)
 
+[URL of your deployed, running app](https://www.doc.gold.ac.uk/usr/138/)
 ---
 # 3. Architecture
 ![Detailed Application  Architecture](./document/photo/1.png)

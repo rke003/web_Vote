@@ -40,69 +40,76 @@
     <!-- Dynamic typing effect output location -->
     <div class="parent-container">
         <div id="typed-output" class="typed-cursor"></div>
+    </div>;
+
+    <!-- 主页提示字 -->
+    <div class="main-text">
+        <!-- Show user's remaining votes -->
+        <% if (user) { %>
+            <p>Your Remaining Votes: <%= user.votes_remaining %>
+            </p>
+            <% } %>
+                <!-- User's login status -->
+                <% if (user) { %>
+                    <p>Hello, <%= user.username %>! You are logged in.</p>
+                    <% } else { %>
+                        <p>Please log in to access more features.</p>
+                        <% } %>
     </div>
 
-    <!-- Show user's remaining votes -->
-    <% if (user) { %>
-        <p>Your Remaining Votes: <%= user.votes_remaining %>
-        </p>
-        <% } %>
 
-            <!-- User's login status -->
-            <% if (user) { %>
-                <p>Hello, <%= user.username %>! You are logged in.</p>
-                <% } else { %>
-                    <p>Please log in to access more features.</p>
-                    <% } %>
+    <div class="gallery">
+        <% if (works.length> 0) { %>
+            <% works.forEach(function(work) { %>
+                <div class="gallery-item-container">
+                    <div class="image-card">
+                        <img src="<%= work.image_url %>" alt="Uploaded Photo">
+                    </div>
+                    <p>Title: <%= work.title %>
+                    </p>
+                    <p>Description: <%= work.description %>
+                    </p>
+                    <p>Votes Received: <%= work.votes_received %>
+                    </p>
+                    <p>Uploaded by User ID: <%= work.user_id %>
+                    </p>
 
-                        <!-- 图片展示部分 -->
-                        <div class="gallery">
-                            <% if (works.length> 0) { %>
-                                <% works.forEach(function(work) { %>
-                                    <div class="image-card gallery-item gallery-item-container ">
-                                        <img src="<%= work.image_url %>" alt="Uploaded Photo">
-                                        <p>Title: <%= work.title %>
-                                        </p>
-                                        <p>Description: <%= work.description %>
-                                        </p>
-                                        <p>Votes Received: <%= work.votes_received %>
-                                        </p>
-                                        <p>Uploaded by User ID: <%= work.user_id %>
-                                        </p>
+                    <!-- ✅ 让按钮正确显示 -->
+                    <% if (user && user.votes_remaining> 0) { %>
+                        <form method="POST" action="/vote">
+                            <input type="hidden" name="work_id" value="<%= work.work_id %>">
+                            <button type="submit" class="vote-button">Vote</button>
+                        </form>
+                        <% } else if (user) { %>
+                            <p class="no-vote">No votes remaining.</p>
+                            <% } %>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>No works available.</p>
+                        <% } %>
+    </div>
 
-                                        <!-- 投票按钮 -->
-                                        <% if (user && user.votes_remaining> 0) { %>
-                                            <form method="POST" action="/vote">
-                                                <input type="hidden" name="work_id" value="<%= work.work_id %>">
-                                                <button type="submit">Vote</button>
-                                            </form>
-                                            <% } else if (user) { %>
-                                                <p>No votes remaining.</p>
-                                                <% } %>
-                                    </div>
-                                    <% }); %>
-                                        <% } else { %>
-                                            <p>No works available.</p>
-                                            <% } %>
-                        </div>
 
-                        <!-- Footer -->
-                        <footer class="footer">
-                            <div>
-                                <img src="/picture/aberdeen.png" class="footer-img">
-                                <p>University of Aberdeen</p>
-                                <p>King's College,</p>
-                                <p>Aberdeen,</p>
-                                <p>AB24 3FX</p>
-                                <hr>
-                                <h3>Contact</h3>
-                                <p>Dr. Yeshui Zhang (yeshui.zhang@abdn.ac.uk)</p>
-                            </div>
-                        </footer>
 
-                        <!-- Scripts -->
-                        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-                        <script src="/js/typed.js"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <img src="/picture/aberdeen.png" class="footer-img"></img>
+            <p>University of Aberdeen</p>
+            <p>King's College,</p>
+            <p>Aberdeen,</p>
+            <p>AB24 3FX</p>
+            <hr>
+            <h3>Contact</h3>
+            <p>Dr. Yeshui Zhang (yeshui.zhang@abdn.ac.uk)</p>
+            </hr>
+
+        </div>
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+        <script src="/js/typed.js"></script>
+    </footer>
 </body>
 
 </html>

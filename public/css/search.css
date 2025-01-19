@@ -60,7 +60,7 @@
     /* Centred horizontally */
     align-items: center;
     /* Vertical Centred */
-    height: 100vh;
+
 
 }
 
@@ -72,6 +72,7 @@
     max-width: 1000px;
     /* Limit the maximum width of the picture card */
 }
+
 /* Picture style */
 .centered-image img {
     max-width: 100%;
@@ -102,4 +103,3 @@ h1 {
         /* Automatic adjustment of small screen image width */
     }
 }
-

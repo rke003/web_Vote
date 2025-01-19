@@ -21,23 +21,25 @@
                 <form method="POST" action="/registered">
                     <h2>Register</h2>
                     <div class="inputbox2">
+                        <label for="">First name</label>
 
                         <input id="first" type="text" name="first" placeholder="First name"
                             value="<%= formData ? formData.first : '' %>"
                             class="<%= errors && errors.some(e => e.field === 'first') ? 'error' : '' %>" />
-                        <label for="">First name</label>
                     </div>
 
                     <div class="inputbox2">
+                        <label for="">Last name</label>
 
                         <input id="last" type="text" name="last" placeholder="Last name"
                             value="<%= formData ? formData.last : '' %>"
                             class="<%= errors && errors.some(e => e.field === 'last') ? 'error' : '' %>" />
-                        <label for="">Last name</label>
                     </div>
 
 
                     <div class="inputbox2">
+                        <label for=""> Email</label>
+
                         <input id="email" type="email" name="email" placeholder="Enter your email"
                             value="<%= formData ? formData.email : '' %>"
                             class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" />
@@ -45,30 +47,29 @@
                             <span class="error-text" style="color:red"> Email is already registerd or
                                 invalid.</span>
                             <% } %>
-                                <label for=""> Email</label>
                     </div>
 
                     <div class="inputbox2">
+                        <label for=""> Password</label>
 
                         <input id="password" type="password" name="password" placeholder="Enter your password"
                             class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" />
-                        <label for=""> Password</label>
 
                     </div>
 
                     <div class="inputbox2">
+                        <label for="">Confirm Password</label>
 
                         <input id="confirm-password" type="password" name="confirmPassword"
                             placeholder="Confirm your password"
                             class="<%= errors && errors.some(e => e.field === 'confirmPassword') ? 'error' : '' %>" />
-                        <label for="">Confirm Password</label>
                     </div>
 
                     <div class="inputbox2">
+                        <label for="">Phone (optional)</label>
 
                         <input id="phone" type="tel" name="phone" placeholder="Enter your phone number"
                             value="<%= formData ? formData.phone : '' %>" />
-                        <label for="">Phone (optional)</label>
                     </div>
 
                     <div class="inputbox2">
@@ -93,23 +94,26 @@
                     </div>
 
                     <div class="inputbox2">
-                        <input list="countries" name="country" id="country" placeholder="Select your country"
+                        <label for="country">Country of your organization</label>
+                        <select name="country" id="country"
                             class="<%= errors && errors.some(e => e.field === 'country') ? 'error' : '' %>">
-                        <datalist id="countries">
-                            <% countryList.forEach(function(country) { %>
-                                <option value="<%= country %>"></option>
+                            <option value="">Select your country</option>
+                            <% countryList.forEach((c)=> { %>
+                                <option value="<%= c %>" <%=formData.country===c ? 'selected' : '' %>>
+                                    <%= c %>
+                                </option>
                                 <% }) %>
-                        </datalist>
-                        <label for="">Country of your organization</label>
+                        </select>
                     </div>
 
+
                     <div class="inputbox2">
+                        <label for="">Name of your organization</label>
 
                         <input id="organization" type="text" name="organization"
                             placeholder="Enter your organization name"
                             value="<%= formData ? formData.organization : '' %>"
                             class="<%= errors && errors.some(e=> e.field === 'organization') ? 'error' : '' %>" />
-                        <label for="">Name of your organization</label>
                     </div>
 
 

@@ -12,11 +12,13 @@ const query = promisify(global.db.query).bind(global.db);
 // Registration page
 router.get("/register", function (req, res) {
     const countryList = Object.values(countries).map(country => country.name);
+    // console.log("Loaded Countries:", countryList);
     res.render("register.ejs", { errors: [], formData: {}, countryList });
 });
 
 // Register for feedback processing
 router.post('/registered', async function (req, res) {
+    console.log("Received Country:", req.body.country);
     const { first, last, email, password, confirmPassword, phone, Occupation, country, organization } = req.body;
     let errors = [];
 
@@ -29,6 +31,8 @@ router.post('/registered', async function (req, res) {
     if (!Occupation || Occupation.trim() === '') errors.push({ field: 'Occupation', message: 'Occupation is required.' });
     if (!country || country.trim() === '') errors.push({ field: 'country', message: 'Country is required.' });
     if (!organization || organization.trim() === '') errors.push({ field: 'organization', message: 'Organization name is required.' });
+    // console.log("Loaded Countries:", Object.values(countries).map(country => country.name));
+
 
     // 2️⃣ **密码校验**
     if (password !== confirmPassword) {

@@ -124,7 +124,7 @@ router.post('/registered', async function (req, res) {
 
         // 7) 注册成功，返回提示
         return res.render('register.ejs', {
-            success: "Registration successful! Please check your email to verify your account.",
+            success: "Registration successful! Please check your email to verify your account. If you don't receive the email, please check your junk/spam folder.",
             errors: [],
             formData: {},
             countryList
@@ -154,7 +154,7 @@ async function sendVerificationEmail(email, token) {
 
     const verificationLink = `${process.env.BASE_URL}/verify?token=${token}`;
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"PhoCom" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: 'Email Verification',
         text: `Click the following link to verify your email: ${verificationLink}`

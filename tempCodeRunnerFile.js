@@ -2,16 +2,18 @@
 var express = require('express')
 var ejs = require('ejs')
 var mysql = require('mysql2');
-require('dotenv').config();
+
+
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = 8000;
+
 
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    host: 'localhost',
+    user: 'VoteUser',
+    password: 'ab2024',
+    database: 'vote_project2024'
 });
 
 
@@ -38,7 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser()); // ✅ 这里启用 `cookie-parser`
 
-// 使用 express-session 中间件管理用户登录状态：
+// Use the express-session middleware to manage user login state:
 const session = require('express-session');
 app.use(session({
     // 安全秘钥
@@ -75,6 +77,10 @@ app.use('/', searchRoutes);
 //verify page
 const verifyRoutes = require('./routes/verify');
 app.use('/', verifyRoutes);
+
+
+
+
 
 // Start listening for HTTP requests
 app.listen(port, () => console.log(`Node server is runing on port ${port}!...`));

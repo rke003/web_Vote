@@ -65,16 +65,17 @@
                     <div class="image-card">
                         <img src="<%= work.image_url %>" alt="Uploaded Photo">
                     </div>
-                    <p>Title: <%= work.title %>
-                    </p>
-                    <p>Description: <%= work.description %>
+                    <p>
+                        <%= work.title %>
                     </p>
                     <p>Votes Received: <%= work.votes_received %>
                     </p>
                     <p>Uploaded by User ID: <%= work.user_id %>
                     </p>
+                    <!-- 添加link导入作品页面 -->
+                    <a href="/search-result?user_id=<%= work.user_id %>" class="view=-details">View Detatails</a>
 
-                    <!-- ✅ 让按钮正确显示 -->
+                    <!-- 让按钮正确显示 -->
                     <% if (user && user.votes_remaining> 0) { %>
                         <form method="POST" action="/vote">
                             <input type="hidden" name="work_id" value="<%= work.work_id %>">

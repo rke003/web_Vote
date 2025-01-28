@@ -1,20 +1,25 @@
 // routes/login.js
 const express = require("express");
-const bcrypt = require("bcrypt");  // 引入 bcrypt 进行密码比对
-const { use } = require("./main");
+const bcrypt = require("bcrypt");
 const router = express.Router();
+const { promisify } = require("util");
 
-// Login page
+const query = promisify(global.db.query).bind(global.db);
+
+// [1] 登录页面
 router.get("/login", function (req, res) {
-    res.render("login.ejs", { errors: [], formData: {} });
+    const rememberedEmail = req.cookies.rememberedEmail || '';
+    const rememberMeChecked = req.cookies.rememberMe === "true" ? true : false; // 读取 Remember Me 状态
+    // 默认 errors=[], 并且把 rememberedEmail 作为初始 formData
+    res.render("login.ejs", { errors: [], formData: { email: rememberedEmail }, rememberMe: rememberMeChecked });
 });
 
-// Login processing logic
-router.post('/logined', function (req, res) {
-    const { email, password } = req.body;
+// [2] 登录表单处理
+router.post('/logined', async function (req, res) {
+    const { email, password, rememberMe } = req.body;
     let errors = [];
 
-    // 1. 验证邮箱和密码是否为空
+    // 1) 简单验证
     if (!email || email.trim() === '') {
         errors.push({ field: 'email', message: 'Email is required.' });
     }
@@ -22,49 +27,68 @@ router.post('/logined', function (req, res) {
         errors.push({ field: 'password', message: 'Password is required.' });
     }
 
-    // 2. 如果出现错误，重新渲染登录页面，并显示错误信息
     if (errors.length > 0) {
-        res.render('login.ejs', { errors, formData: req.body });
-        return;
+        return res.render('login.ejs', { errors, formData: req.body, rememberMe });
     }
 
+    try {
+        // 2) 查询数据库
+        const sqlquery = "SELECT * FROM users WHERE email = ?";
+        const results = await query(sqlquery, [email]);
 
-    // 3️.查询数据库中的用户
-    const sqlquery = "SELECT * FROM users Where email = ?";
-    db.query(sqlquery, [email], async (err, results) => {
-        if (err) {
-            console.error("Database error: ", err.message);
-            return res.status(500).send("Internal server error");
-        }
-
-        //4. If no matching user can be found
+        // 用户不存在
         if (results.length === 0) {
-            errors.push({ field: 'email', message: 'Incorrect wmail or password.' });
+            errors.push({ field: 'email', message: 'Incorrect email or password.' });
             return res.render('login.ejs', { errors, formData: req.body });
         }
 
-        // 5. 获取用户信息
         const user = results[0];
-        const hashedPassword = user.password_hash;
 
-        // 6. 使用bcrypt.compare()检查密码是否匹配数据库里的字符串
-        const isMatch = await bcrypt.compare(password, hashedPassword);
-        if (!isMatch) {
-            errors.push({ field: 'email', message: 'Incorrect email or password.' });
-            return res.render('login.ejs', { error, formData: req.body });
+        // 3) 检查是否已经验证邮箱
+        if (user.email_verified === 0) {
+            return res.render('login.ejs', {
+                errors: [{ field: 'email', message: 'Please verify your email before logging in.' }],
+                formData: req.body
+            });
         }
 
-        // 7.如果密码匹配，创建会话
+        // 4) bcrypt 对比密码哈希
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+        if (!isMatch) {
+            errors.push({ field: 'email', message: 'Incorrect email or password.' });
+            return res.render('login.ejs', { errors, formData: req.body });
+        }
+
+        // 5) 密码正确，写入 session
         req.session.user = {
             id: user.user_id,
             email: user.email,
             username: user.username
         };
 
-        // Redirect to homepage
-        res.redirect('/');
-    });
+        // 6) Remember Me 功能：如果勾选则设置 cookie，否则清除
+        if (rememberMe) {
+            res.cookie("rememberedEmail", email, {
+                maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 周
+                httpOnly: true,
+                secure: false  // 若使用 HTTPS，请改为 true
+            });
+
+            res.cookie("rememberMe", "true", {
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+        } else {
+            res.clearCookie("rememberedEmail");
+            res.clearCookie("rememberMe")
+        }
+
+        // 7) 登录成功，重定向到主页或其他页面
+        return res.redirect('/');
+
+    } catch (err) {
+        console.error("Login error:", err);
+        return res.status(500).send("Internal server error.");
+    }
 });
 
-// Export Routing Module
 module.exports = router;

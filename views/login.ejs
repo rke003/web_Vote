@@ -6,54 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
 
-    <!-- Introducing external css files -->
+    <!-- External CSS -->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/form.css">
 
-    <!-- Cites Boxicons open source library -->
+    <!-- Boxicons Library -->
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
-
 <body class="form">
-
     <section>
         <div class="form-box">
             <div class="form-value">
+                <!-- 登录表单 -->
                 <form method="POST" action="/logined">
                     <h2>Login</h2>
-                    <div class="inputbox">
-                        <i class='bx bx-envelope'></i>
-                        <input id="email" type="email" name="email" value="<%= formData ? formData.email : '' %>"
-                            class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>" required />
-                        <label for="">Email</label>
-                    </div>
-                    <div class="inputbox">
-                        <i class='bx bx-lock-alt'></i>
-                        <input id="password" type="password" name="password"
-                            value="<%= formData ? formData.password : '' %>"
-                            class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>" required />
-                        <label for="">Possword</label>
-                    </div>
-                    <div class="forget">
-                        <label for=""><input type="checkbox">Remember me </label>
-                        <a href="#"> Forget Password</a>
-                    </div>
-                    <input type="submit" value="Login" class="submit" />
-                    <div class="register">
-                        <p>Don't have a account<a href="/register"> Register</a></p>
-                        <p>Return <a href="/">Home page</a></p>
 
-                    </div>
+                    <!-- 如果有成功消息（比如验证成功后从 verify 路由跳转到 login），可以显示 -->
+                    <% if (typeof success !=='undefined' ) { %>
+                        <p style="color: green;">
+                            <%= success %>
+                        </p>
+                        <% } %>
 
-                </form>
+                            <div class="inputbox">
+                                <i class='bx bx-envelope'></i>
+                                <input id="email" type="email" name="email"
+                                    value="<%= formData ? formData.email : '' %>"
+                                    class="<%= errors && errors.some(e => e.field === 'email') ? 'error' : '' %>"
+                                    required />
+                                <label for="email">Email</label>
+                            </div>
+
+                            <div class="inputbox">
+                                <i class='bx bx-lock-alt'></i>
+                                <input id="password" type="password" name="password"
+                                    value="<%= formData ? formData.password : '' %>"
+                                    class="<%= errors && errors.some(e => e.field === 'password') ? 'error' : '' %>"
+                                    required />
+                                <label for="password">Password</label>
+                            </div>
+
+                            <div class="forget">
+                                <!-- 勾选 Remember Me，需要给 name="rememberMe" -->
+                                <label>
+                                    <input type="checkbox" id="rememberMe" name="rememberMe" <%=typeof rememberMe
+                                        !=="undefined" ? "checked" : "" %> />
+
+                                    Remember me
+                                </label>
+                                <!-- <a href="#">Forget Password</a> -->
+                            </div>
+
+                            <input type="submit" value="Login" class="submit" />
+
+                            <div class="register">
+                                <p>Don't have an account? <a href="/register">Register</a></p>
+                                <p>Return <a href="/">Home page</a></p>
+                            </div>
+                            </input>
             </div>
         </div>
-
-        </form>
-        <!-- Introducing external JavaScript files -->
-        <script src="/js/validation.js"></script>
     </section>
+
+    <!-- JS Validation (可选) -->
+    <script src="/js/validation.js"></script>
 </body>
 
 </html>

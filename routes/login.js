@@ -45,11 +45,12 @@ router.post('/logined', async function (req, res) {
         const user = results[0];
 
         // 3) 检查是否已经验证邮箱
-        if (user.email_verified === 0) {
+        if (user.email_verified == 0) {
             return res.render('login.ejs', {
                 errors: [{ field: 'email', message: 'Please verify your email before logging in.' }],
                 formData: req.body
             });
+            console.log("user.email_verified:", user.email_verified, typeof user.email_verified);
         }
 
         // 4) bcrypt 对比密码哈希

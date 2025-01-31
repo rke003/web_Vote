@@ -77,6 +77,6 @@ const verifyRoutes = require('./routes/verify');
 app.use('/', verifyRoutes);
 
 // Start listening for HTTP requests
-app.listen(port, () => console.log(`Node server is runing on port ${port}!...`));
+app.listen(port, '0.0.0.0',() => console.log(`Node server is runing on port ${port}!...`));
 
 
